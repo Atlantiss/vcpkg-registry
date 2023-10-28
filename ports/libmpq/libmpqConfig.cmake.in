@@ -1,6 +1,6 @@
 include(CMakeFindDependencyMacro)
 
-find_dependency(Bzip2)
+find_dependency(BZip2)
 find_dependency(ZLIB)
 
 if(NOT TARGET @PROJECT_NAME@::@PROJECT_NAME@)
