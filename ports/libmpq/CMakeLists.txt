@@ -39,7 +39,7 @@ target_include_directories(libmpq
 target_link_libraries(libmpq
     PUBLIC
         ZLIB::ZLIB
-        BZip2::BZip2)
+        bzip2::bzip2)
 
 target_compile_options(libmpq
     INTERFACE 
