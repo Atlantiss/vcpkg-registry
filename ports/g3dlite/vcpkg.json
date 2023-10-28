@@ -1,6 +1,6 @@
 {
 	"name": "g3dlite",
-	"version": "9.0",
+	"version": "9.0.0",
 	"description": "The G3D Innovation Engine by Morgan McGuire",
 	"homepage": "https://github.com/RomkoSI/G3D",
 	"dependencies": [
