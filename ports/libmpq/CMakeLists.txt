@@ -37,9 +37,9 @@ target_include_directories(libmpq
 )
 
 target_link_libraries(libmpq
-    PUBLIC
+    PRIVATE
         ZLIB::ZLIB
-        bzip2::bzip2)
+        BZip2::BZip2)
 
 target_compile_options(libmpq
     INTERFACE 
