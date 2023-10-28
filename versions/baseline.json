@@ -1,5 +1,6 @@
 {
     "default": {
-        "g3dlite": { "baseline": "9.0.0", "port-version": 0 }
+        "g3dlite": { "baseline": "9.0.0", "port-version": 0 },
+        "libmpq": { "baseline": "0.4.0", "port-version": 0 }
     }
 }

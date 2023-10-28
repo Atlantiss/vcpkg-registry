@@ -1,0 +1,30 @@
+vcpkg_from_github(
+    OUT_SOURCE_PATH SOURCE_PATH
+    REPO StormforgeLibraries/libmpq
+    REF d59b4cf1d107b5f6a0f67d6bc545c6c6ebef3d74 
+	SHA512 D670DD51476D42603B97CA8A06B1CE9B252AC6ECF564DC07627E44702662786CD69A409DCDA244DEDDFBEE9D92717571D4BB2556110907B445309E8DEF52558B
+    HEAD_REF master
+    PATCHES
+        hotfix.diff
+)
+
+file(COPY "${CMAKE_CURRENT_LIST_DIR}/win" DESTINATION "${SOURCE_PATH}")
+file(COPY "${CMAKE_CURRENT_LIST_DIR}/libmpqConfig.cmake.in" DESTINATION "${SOURCE_PATH}")
+file(COPY "${CMAKE_CURRENT_LIST_DIR}/CMakeLists.txt" DESTINATION "${SOURCE_PATH}")
+
+vcpkg_cmake_configure(
+    SOURCE_PATH "${SOURCE_PATH}"
+)
+
+vcpkg_cmake_install()
+vcpkg_copy_pdbs()
+
+vcpkg_cmake_config_fixup(PACKAGE_NAME libmpq CONFIG_PATH "lib/cmake/libmpq")
+
+file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include")
+
+file(
+    INSTALL "${SOURCE_PATH}/COPYING"
+    DESTINATION "${CURRENT_PACKAGES_DIR}/share/${PORT}"
+    RENAME copyright
+)

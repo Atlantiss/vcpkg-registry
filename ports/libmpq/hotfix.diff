@@ -1,0 +1,43 @@
+diff --git a/libmpq/extract.c b/libmpq/extract.c
+index f4ebb29..4d2a9d8 100644
+--- a/libmpq/extract.c
++++ b/libmpq/extract.c
+@@ -48,7 +48,7 @@ static decompress_table_s dcmp_table[] = {
+ 
+ /* this function decompress a stream using huffman algorithm. */
+ int32_t libmpq__decompress_huffman(uint8_t *in_buf, uint32_t in_size, uint8_t *out_buf, uint32_t out_size) {
+-
++    (void)in_size;
+ 	/* TODO: make typdefs of this structs? */
+ 	/* some common variables. */
+ 	int32_t tb     = 0;
+@@ -56,10 +56,12 @@ int32_t libmpq__decompress_huffman(uint8_t *in_buf, uint32_t in_size, uint8_t *o
+ 	struct huffman_input_stream_s *is;
+ 
+ 	/* allocate memory for the huffman tree. */
+-	if ((ht = malloc(sizeof(struct huffman_tree_s))) == NULL ||
+-	    (is = malloc(sizeof(struct huffman_input_stream_s))) == NULL) {
+-
+-		/* memory allocation problem. */
++	if ((ht = malloc(sizeof(struct huffman_tree_s))) == NULL) {
++        /* memory allocation problem. */
++        return LIBMPQ_ERROR_MALLOC;
++    }
++ 
++    if ((is = malloc(sizeof(struct huffman_input_stream_s))) == NULL) {
+ 		return LIBMPQ_ERROR_MALLOC;
+ 	}
+ 
+diff --git a/libmpq/mpq.c b/libmpq/mpq.c
+index 1936f25..9afcdcd 100644
+--- a/libmpq/mpq.c
++++ b/libmpq/mpq.c
+@@ -65,7 +65,7 @@ const char *libmpq__version(void) {
+ const char *libmpq__strerror(int32_t return_code) {
+ 
+ 	/* check for array bounds */
+-	if (-return_code < 0 || -return_code > sizeof(__libmpq_error_strings)/sizeof(char*))
++	if (-return_code < 0 || (size_t)-return_code > sizeof(__libmpq_error_strings)/sizeof(char*))
+ 		return NULL;
+ 
+ 	/* return appropriate string */
