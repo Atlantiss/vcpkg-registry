@@ -14,6 +14,8 @@ file(COPY "${CMAKE_CURRENT_LIST_DIR}/CMakeLists.txt" DESTINATION "${SOURCE_PATH}
 
 vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"
+    OPTIONS
+        -DBUILD_SHARED_LIB=${SHARED_LIB}
 )
 
 vcpkg_cmake_install()

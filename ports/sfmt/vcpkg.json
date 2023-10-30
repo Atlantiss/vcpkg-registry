@@ -1,0 +1,16 @@
+{
+	"name": "sfmt",
+	"version": "1.5.0",
+	"description": "SIMD-oriented Fast Mersenne Twister",
+	"homepage": "https://github.com/MersenneTwister-Lab/SFMT",
+	"dependencies": [
+		{
+			"name": "vcpkg-cmake",
+			"host": true
+		},
+		{
+			"name": "vcpkg-cmake-config",
+			"host": true
+		}
+	]
+}

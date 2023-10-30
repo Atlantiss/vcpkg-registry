@@ -1,0 +1,8 @@
+include(CMakeFindDependencyMacro)
+
+if(NOT TARGET @PROJECT_NAME@::@PROJECT_NAME@)
+  get_filename_component(CURRENT_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" DIRECTORY)
+  include("${CURRENT_CMAKE_DIR}/sfmtTargets.cmake")
+endif()
+
+set(@PROJECT_NAME@_LIBRARIES @PROJECT_NAME@::@PROJECT_NAME@)

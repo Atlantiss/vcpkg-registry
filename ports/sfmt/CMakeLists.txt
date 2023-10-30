@@ -7,10 +7,7 @@ set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-project(libmpq VERSION 0.4.0 LANGUAGES C CXX)
-
-find_package(ZLIB REQUIRED)
-find_package(BZip2 REQUIRED)
+project(sfmt VERSION 1.5.0 LANGUAGES C CXX)
 
 add_definitions(-D_WIN32_WINNT=0x0601)
 add_definitions(-DWIN32_LEAN_AND_MEAN)
@@ -18,34 +15,45 @@ add_definitions(-DNOMINMAX)
 
 # Library configuration:
 
-file(GLOB sources libmpq/*.c libmpq/*.h)
+set(SFMT_HEADERS
+  SFMT.h
+  SFMT-alti.h
+  SFMT-common.h
+  SFMT-neon.h
+  SFMT-params.h
+  SFMT-params607.h
+  SFMT-params1279.h
+  SFMT-params2281.h
+  SFMT-params4253.h
+  SFMT-params11213.h
+  SFMT-params19937.h
+  SFMT-params44497.h
+  SFMT-params86243.h
+  SFMT-params132049.h
+  SFMT-params216091.h
+  SFMT-sse2.h
+  SFMT-sse2-msc.h)
+
+set(SFMT_SOURCES
+  SFMT.c
+  ${SFMT_HEADERS})
 
 if (${BUILD_SHARED_LIB})
-    add_library(libmpq SHARED ${sources})
+    add_library(sfmt SHARED ${SFMT_SOURCES})
 else()
-    add_library(libmpq STATIC ${sources})
+    add_library(sfmt STATIC ${SFMT_SOURCES})
 endif()
 
-add_library(libmpq::libmpq ALIAS libmpq)
-set_target_properties(libmpq PROPERTIES LINKER_LANGUAGE CXX)
+add_library(sfmt::sfmt ALIAS sfmt)
+set_target_properties(sfmt PROPERTIES LINKER_LANGUAGE CXX)
 
-if (WIN32)
-    set(WIN_EXTRA_INCLUDE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/win>)
-endif()
-
-target_include_directories(libmpq
+target_include_directories(sfmt
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-        ${WIN_EXTRA_INCLUDE}
         $<INSTALL_INTERFACE:include>
 )
 
-target_link_libraries(libmpq
-    PUBLIC
-        ZLIB::ZLIB
-        BZip2::BZip2)
-
-target_compile_options(libmpq
+target_compile_options(sfmt
     INTERFACE 
         $<$<CXX_COMPILER_ID:MSVC>:/wd4996 /wd4985 /wd4244 /wd4267 /wd4619 /wd4512>)
     
@@ -57,7 +65,7 @@ include(CMakePackageConfigHelpers)
 set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
 
 configure_file(
-    "${PROJECT_SOURCE_DIR}/libmpqConfig.cmake.in"
+    "${PROJECT_SOURCE_DIR}/sfmtConfig.cmake.in"
     ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
     @ONLY
 )
@@ -67,11 +75,9 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
     ${INSTALL_CONFIGDIR}
 )
 
-file(GLOB HEADERS "${CMAKE_CURRENT_LIST_DIR}/libmpq/*.h")
-
 install(
-    FILES ${HEADERS}
-    DESTINATION "include/libmpq"
+    FILES ${SFMT_HEADERS}
+    DESTINATION "include/sfmt"
 )
 
 install(
@@ -85,6 +91,6 @@ install(
 install(
     EXPORT ${PROJECT_NAME}Targets
     FILE ${PROJECT_NAME}Targets.cmake
-    NAMESPACE libmpq::
+    NAMESPACE sfmt::
     DESTINATION ${INSTALL_CONFIGDIR}
 )
